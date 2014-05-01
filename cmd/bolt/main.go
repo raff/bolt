@@ -51,9 +51,12 @@ func NewApp() *cli.App {
 		{
 			Name:  "stat",
 			Usage: "Print statistics for a bucket",
+			Flags: []cli.Flag{
+				&cli.BoolFlag{Name: "all", Usage: "All stats"},
+                        },
 			Action: func(c *cli.Context) {
 				path, name := c.Args().Get(0), c.Args().Get(1)
-				Stat(path, name)
+				Stat(path, name, c.Bool("all"))
 			},
 		},
 		{

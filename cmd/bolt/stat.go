@@ -7,7 +7,7 @@ import (
 )
 
 // Stat retrieves the statistics for a bucket
-func Stat(path, name string) {
+func Stat(path, name string, all bool) {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		fatal(err)
 		return
@@ -29,12 +29,23 @@ func Stat(path, name string) {
 		}
 
 		// Get stat
-                stats := b.Stat()
-                println("Branch Page Count:  ", stats.BranchPageCount)
-                println("Leaf Page Count:    ", stats.LeafPageCount)
-                println("Overflow Page Count:", stats.OverflowPageCount)
-                println("Key Count:          ", stats.KeyCount)
-                println("Max Depth:          ", stats.MaxDepth)
+                stats := b.Stats()
+                println("Key Count:          ", stats.KeyN)
+                println("Depth:              ", stats.Depth)
+
+                if all {
+                    println()
+                    println("Branch Pages:          ", stats.BranchPageN)
+                    println("Branch Overflow Pages: ", stats.BranchOverflowN)
+                    println("Leaf Pages:            ", stats.LeafPageN)
+                    println("Leaf Overflow Pages:   ", stats.LeafOverflowN)
+                    println()
+                    println("Branch Allocated Memory: ", stats.BranchAlloc)
+                    println("Branch Memory In Use   : ", stats.BranchInuse)
+                    println("Leaf Allocated Memory:   ", stats.LeafAlloc)
+                    println("Leaf Memory In Use     : ", stats.LeafInuse)
+                }
+
                 return nil
 	})
 	if err != nil {
