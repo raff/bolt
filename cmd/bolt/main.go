@@ -49,6 +49,14 @@ func NewApp() *cli.App {
 			},
 		},
 		{
+			Name:  "stat",
+			Usage: "Print statistics for a bucket",
+			Action: func(c *cli.Context) {
+				path, name := c.Args().Get(0), c.Args().Get(1)
+				Stat(path, name)
+			},
+		},
+		{
 			Name:  "buckets",
 			Usage: "Retrieves a list of all buckets",
 			Action: func(c *cli.Context) {
